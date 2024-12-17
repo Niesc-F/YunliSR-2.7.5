@@ -10,7 +10,7 @@ pub fn onShieldLogin(req: *httpz.Request, res: *httpz.Response) !void {
         .data = .{
             .account = .{
                 .area_code = "**",
-                .email = "YunliSR-2.6.5",
+                .email = "YunliSR",
                 .country = "CN",
                 .is_email_verify = "1",
                 .token = "aa",
@@ -39,7 +39,7 @@ pub fn onVerifyLogin(req: *httpz.Request, res: *httpz.Response) !void {
         .message = "OK",
         .data = .{
             .account = .{
-                .email = "YunliSR-2.6.5",
+                .email = "YunliSR",
                 .token = token,
                 .uid = uid,
             },

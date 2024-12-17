@@ -11,10 +11,10 @@ pub fn onQueryDispatch(_: *httpz.Request, res: *httpz.Response) !void {
 
     proto.retcode = 0;
     try proto.region_list.append(.{
-        .name = .{ .Const = "YunliSR-2.6.5" },
-        .display_name = .{ .Const = "YunliSR-2.6.5" },
+        .name = .{ .Const = "YunliSR" },
+        .display_name = .{ .Const = "YunliSR" },
         .env_type = .{ .Const = "2" },
-        .title = .{ .Const = "YunliSR-2.6.5" },
+        .title = .{ .Const = "YunliSR" },
         .dispatch_url = .{ .Const = "http://127.0.0.1:21000/query_gateway" },
     });
 

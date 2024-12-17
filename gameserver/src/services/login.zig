@@ -29,7 +29,7 @@ pub fn onPlayerLogin(session: *Session, packet: *const Packet, allocator: Alloca
     var rsp = protocol.PlayerLoginScRsp.init(allocator);
     rsp.retcode = 0;
     rsp.login_random = req.login_random;
-    rsp.stamina = 240;
+    rsp.stamina = 300;
     rsp.basic_info = basic_info;
 
     try session.send(CmdID.CmdPlayerLoginScRsp, rsp);

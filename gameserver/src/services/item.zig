@@ -22,6 +22,8 @@ pub fn onGetBag(session: *Session, _: *const Packet, allocator: Allocator) !void
         .{ .tid = 102, .num = 100 },
         .{ .tid = 251001, .num = 1 },
         .{ .tid = 310007, .num = 1 },
+        .{ .tid = 140279, .num = 100 },
+        .{ .tid = 408002, .num = 100 },
     });
 
     for (config.avatar_config.items) |avatarConf| {
@@ -77,4 +79,18 @@ pub fn UidGenerator() type {
             return self.current_id;
         }
     };
+}
+
+
+//CsReq - ScRsp
+pub fn onUseItem(session: *Session, packet: *const Packet, allocator: Allocator) !void {
+
+    const req = try packet.getProto(protocol.UseItemCsReq, allocator);
+
+    try session.send(CmdID.CmdUseItemScRsp, protocol.UseItemScRsp{
+        .retcode = 0,
+        .use_item_id = req.use_item_id,
+        .use_item_count = req.use_item_count,
+    });
+    std.debug.print("UseItemID: {}\n", .{req.use_item_id});
 }

@@ -15,6 +15,7 @@ const mission = @import("services/mission.zig");
 //const pet = @import("services/pet.zig");
 //const profile = @import("services/profile.zig");
 const scene = @import("services/scene.zig");
+//const npc = @import("services/test.zig");
 
 const Allocator = std.mem.Allocator;
 const ArenaAllocator = std.heap.ArenaAllocator;
@@ -29,16 +30,16 @@ const HandlerList = [_]struct { CmdID, Action }{
 	.{ CmdID.CmdPlayerHeartBeatCsReq, misc.onPlayerHeartBeat },
 	.{ CmdID.CmdGetAvatarDataCsReq, avatar.onGetAvatarData },
 	.{ CmdID.CmdGetMultiPathAvatarInfoCsReq, avatar.onGetMultiPathAvatarInfo },
-    .{ CmdID.CmdSetAvatarPathCsReq, avatar.onSetAvatarPath},
 	.{ CmdID.CmdGetBagCsReq, item.onGetBag },
+	.{ CmdID.CmdUseItemCsReq, item.onUseItem },
 	.{ CmdID.CmdChangeLineupLeaderCsReq, lineup.onChangeLineupLeader },
 	.{ CmdID.CmdReplaceLineupCsReq, lineup.onReplaceLineup },
-	.{ CmdID.CmdGetMissionStatusCsReq, mission.onGetMissionStatus },
 	.{ CmdID.CmdGetCurLineupDataCsReq, lineup.onGetCurLineupData },
 	.{ CmdID.CmdGetCurSceneInfoCsReq, scene.onGetCurSceneInfo },
 	.{ CmdID.CmdSceneEntityMoveCsReq, scene.onSceneEntityMove },
 	.{ CmdID.CmdStartCocoonStageCsReq, battle.onStartCocoonStage },
 	.{ CmdID.CmdPVEBattleResultCsReq, battle.onPVEBattleResult },
+    .{ CmdID.CmdRelicRecommendCsReq, avatar.onSetRelicRecommend },
 	//friendlist
 	//.{ CmdID.CmdGetFriendListInfoCsReq, chat.onGetFriendListInfo },
 	//gacha
@@ -63,6 +64,13 @@ const HandlerList = [_]struct { CmdID, Action }{
 	//.{ CmdID.CmdSetSignatureCsReq, profile.onSetSignature },
 	//.{ CmdID.CmdSetGameplayBirthdayCsReq, profile.onSetGameplayBirthday },
 	//.{ CmdID.CmdSetHeadIconCsReq, profile.onSetHeadIcon },
+	//mission
+	.{ CmdID.CmdGetMissionStatusCsReq, mission.onGetMissionStatus },
+	//.{ CmdID.CmdGetTutorialGuideCsReq, mission.onGetTutorialGuideStatus },
+	//.{ CmdID.CmdGetTutorialCsReq, mission.onGetTutorialStatus },
+    //npc
+    //.{ CmdID.CmdGetFirstTalkByPerformanceNpcCsReq, npc.onGetFirstTalkByPerformanceNpc },
+    //.{ CmdID.CmdGetNpcTakenRewardCsReq, npc.onGetNpcTakenReward },
 };
 
 const DummyCmdList = [_]struct { CmdID, CmdID }{
@@ -103,7 +111,6 @@ const DummyCmdList = [_]struct { CmdID, CmdID }{
     .{ CmdID.CmdPlayerLoginFinishCsReq, CmdID.CmdPlayerLoginFinishScRsp },
     .{ CmdID.CmdGetLevelRewardTakenListCsReq, CmdID.CmdGetLevelRewardTakenListScRsp },
     .{ CmdID.CmdGetMainMissionCustomValueCsReq, CmdID.CmdGetMainMissionCustomValueScRsp },
-    .{ CmdID.CmdRelicRecommendCsReq, CmdID.CmdRelicRecommendScRsp },
     .{ CmdID.CmdGetSceneMapInfoCsReq, CmdID.CmdGetSceneMapInfoScRsp },
     .{ CmdID.CmdGetFirstTalkNpcCsReq, CmdID.CmdGetFirstTalkNpcScRsp },
     .{ CmdID.CmdGetMaterialSubmitActivityDataCsReq, CmdID.CmdGetMaterialSubmitActivityDataScRsp },
@@ -118,6 +125,63 @@ const DummyCmdList = [_]struct { CmdID, CmdID }{
     .{ CmdID.CmdGetFriendBattleRecordDetailCsReq, CmdID.CmdGetFriendBattleRecordDetailScRsp },
     .{ CmdID.CmdGetFriendDevelopmentInfoCsReq, CmdID.CmdGetFriendDevelopmentInfoScRsp },
     .{ CmdID.CmdGetFriendRecommendListInfoCsReq, CmdID.CmdGetFriendRecommendListInfoScRsp },
+	//added in 3.0
+	.{ CmdID.CmdRogueArcadeGetInfoCsReq, CmdID.CmdRogueArcadeGetInfoScRsp },
+    .{ CmdID.CmdGetMissionMessageInfoCsReq, CmdID.CmdGetMissionMessageInfoScRsp },
+    .{ CmdID.CmdTrainPartyGetDataCsReq, CmdID.CmdTrainPartyGetDataScRsp },
+    .{ CmdID.CmdSwitchHandDataCsReq, CmdID.CmdSwitchHandDataScRsp },
+    .{ CmdID.CmdGetEnteredSceneCsReq, CmdID.CmdGetEnteredSceneScRsp },
+    .{ CmdID.CmdQueryProductInfoCsReq, CmdID.CmdQueryProductInfoScRsp },
+    .{ CmdID.CmdGetPamSkinDataCsReq, CmdID.CmdGetPamSkinDataScRsp },
+    .{ CmdID.CmdGetRogueScoreRewardInfoCsReq, CmdID.CmdGetRogueScoreRewardInfoScRsp },
+    .{ CmdID.CmdGetQuestRecordCsReq, CmdID.CmdGetQuestRecordScRsp },
+    .{ CmdID.CmdGetDailyActiveInfoCsReq, CmdID.CmdGetDailyActiveInfoScRsp },
+    .{ CmdID.CmdGetChessRogueNousStoryInfoCsReq, CmdID.CmdGetChessRogueNousStoryInfoScRsp },
+    .{ CmdID.CmdCommonRogueQueryCsReq, CmdID.CmdCommonRogueQueryScRsp },
+    .{ CmdID.CmdGetFightActivityDataCsReq, CmdID.CmdGetFightActivityDataScRsp },
+    .{ CmdID.CmdGetStarFightDataCsReq, CmdID.CmdGetStarFightDataScRsp },
+    .{ CmdID.CmdGetMultipleDropInfoCsReq, CmdID.CmdGetMultipleDropInfoScRsp },
+    .{ CmdID.CmdGetPlayerReturnMultiDropInfoCsReq, CmdID.CmdGetPlayerReturnMultiDropInfoScRsp },
+    .{ CmdID.CmdGetShareDataCsReq, CmdID.CmdGetShareDataScRsp },
+    .{ CmdID.CmdGetTreasureDungeonActivityDataCsReq, CmdID.CmdGetTreasureDungeonActivityDataScRsp },
+    .{ CmdID.CmdEvolveBuildQueryInfoCsReq, CmdID.CmdEvolveBuildQueryInfoScRsp },
+    .{ CmdID.CmdGetAlleyInfoCsReq, CmdID.CmdGetAlleyInfoScRsp },
+    .{ CmdID.CmdGetAetherDivideChallengeInfoCsReq, CmdID.CmdGetAetherDivideChallengeInfoScRsp },
+    .{ CmdID.CmdGetStrongChallengeActivityDataCsReq, CmdID.CmdGetStrongChallengeActivityDataScRsp },
+    .{ CmdID.CmdGetOfferingInfoCsReq, CmdID.CmdGetOfferingInfoScRsp },
+    .{ CmdID.CmdClockParkGetInfoCsReq, CmdID.CmdClockParkGetInfoScRsp },
+    .{ CmdID.CmdGetGunPlayDataCsReq, CmdID.CmdGetGunPlayDataScRsp },
+    .{ CmdID.CmdGetTrackPhotoActivityDataCsReq, CmdID.CmdGetTrackPhotoActivityDataScRsp },
+    .{ CmdID.CmdGetSwordTrainingDataCsReq, CmdID.CmdGetSwordTrainingDataScRsp },
+    .{ CmdID.CmdGetFightFestDataCsReq, CmdID.CmdGetFightFestDataScRsp },
+    .{ CmdID.CmdDifficultyAdjustmentGetDataCsReq, CmdID.CmdDifficultyAdjustmentGetDataScRsp },
+    .{ CmdID.CmdGetPamSkinDataCsReq, CmdID.CmdGetPamSkinDataScRsp },
+    .{ CmdID.CmdSpaceZooDataCsReq, CmdID.CmdSpaceZooDataScRsp },
+    .{ CmdID.CmdGetExpeditionDataCsReq, CmdID.CmdGetExpeditionDataScRsp },
+    .{ CmdID.CmdTravelBrochureGetDataCsReq, CmdID.CmdTravelBrochureGetDataScRsp },
+    .{ CmdID.CmdRaidCollectionDataCsReq, CmdID.CmdRaidCollectionDataScRsp },
+    .{ CmdID.CmdGetChatEmojiListCsReq, CmdID.CmdGetChatEmojiListScRsp },
+    .{ CmdID.CmdGetChallengeCsReq, CmdID.CmdGetChallengeScRsp },
+    .{ CmdID.CmdGetRaidInfoCsReq, CmdID.CmdGetRaidInfoScRsp },
+    .{ CmdID.CmdGetLoginActivityCsReq, CmdID.CmdGetLoginActivityScRsp },
+    .{ CmdID.CmdGetTrialActivityDataCsReq, CmdID.CmdGetTrialActivityDataScRsp },
+    .{ CmdID.CmdGetJukeboxDataCsReq, CmdID.CmdGetJukeboxDataScRsp },
+    .{ CmdID.CmdGetMuseumInfoCsReq, CmdID.CmdGetMuseumInfoScRsp },
+    .{ CmdID.CmdGetTelevisionActivityDataCsReq, CmdID.CmdGetTelevisionActivityDataScRsp },
+    .{ CmdID.CmdGetTrainVisitorRegisterCsReq, CmdID.CmdGetTrainVisitorRegisterScRsp },
+    .{ CmdID.CmdGetBoxingClubInfoCsReq, CmdID.CmdGetBoxingClubInfoScRsp },
+    .{ CmdID.CmdTextJoinQueryCsReq, CmdID.CmdTextJoinQueryScRsp },
+    .{ CmdID.CmdGetLoginChatInfoCsReq, CmdID.CmdGetLoginChatInfoScRsp },
+    .{ CmdID.CmdGetFeverTimeActivityDataCsReq, CmdID.CmdGetFeverTimeActivityDataScRsp },
+    .{ CmdID.CmdGetSummonActivityDataCsReq, CmdID.CmdGetSummonActivityDataScRsp },
+    .{ CmdID.CmdTarotBookGetDataCsReq, CmdID.CmdTarotBookGetDataScRsp },
+    .{ CmdID.CmdGetMarkChestCsReq, CmdID.CmdGetMarkChestScRsp },
+    .{ CmdID.CmdMatchThreeGetDataCsReq, CmdID.CmdMatchThreeGetDataScRsp },
+    .{ CmdID.CmdUpdateServerPrefsDataCsReq, CmdID.CmdUpdateServerPrefsDataScRsp },
+    .{ CmdID.CmdUpdateTrackMainMissionIdCsReq, CmdID.CmdUpdateTrackMainMissionIdScRsp },
+    .{ CmdID.CmdGetNpcMessageGroupCsReq, CmdID.CmdGetNpcMessageGroupScRsp },
+    .{ CmdID.CmdGetAllSaveRaidCsReq, CmdID.CmdGetAllSaveRaidScRsp },
+
 };
 
 const SuppressLogList = [_]CmdID{CmdID.CmdSceneEntityMoveCsReq};

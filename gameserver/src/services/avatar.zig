@@ -199,3 +199,11 @@ pub fn onSetAvatarPath(session: *Session, packet: *const Packet, allocator: Allo
 
     try session.send(CmdID.CmdSetAvatarPathScRsp, rsp);
 }
+
+pub fn onSetRelicRecommend(session: *Session, packet: *const Packet, allocator: Allocator) !void {
+    const req = try packet.getProto(protocol.RelicRecommendCsReq, allocator);
+    var rsp = protocol.RelicRecommendScRsp.init(allocator);
+    rsp.retcode = 0;
+    rsp.avatar_id = req.avatar_id;
+    try session.send(CmdID.CmdRelicRecommendScRsp, rsp);
+}

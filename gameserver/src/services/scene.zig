@@ -10,11 +10,11 @@ const log = std.log.scoped(.scene_service);
 pub fn onGetCurSceneInfo(session: *Session, _: *const Packet, allocator: Allocator) !void {
     var scene_info = protocol.SceneInfo.init(allocator);
     
-    //scene_info.epjfpdphmij = 1; //leader_entity_id
+    scene_info.leader_entity_id = 1;
     scene_info.game_mode_type = 1;
-    scene_info.plane_id = 20232;
-    scene_info.floor_id = 20232001;
-    scene_info.entry_id = 2023201;
+    scene_info.plane_id = 20413;
+    scene_info.floor_id = 20413001;
+    scene_info.entry_id = 2041301;
 
     { // Character
         var scene_group = protocol.SceneGroupInfo.init(allocator);
@@ -27,8 +27,10 @@ pub fn onGetCurSceneInfo(session: *Session, _: *const Packet, allocator: Allocat
                 .uid = 666,
                 .map_layer = 0,
             },
-            .Motion = .{ .pos = .{ .x = 11839, .y = 4828, .z = -129510 },
-                .rot = .{} },
+            .Motion = .{
+                .pos = .{ .x = 26790, .y = -467500, .z = -281 },
+                .rot = .{},
+            },
         });
 
         try scene_info.entity_group_list.append(scene_group);
@@ -37,33 +39,21 @@ pub fn onGetCurSceneInfo(session: *Session, _: *const Packet, allocator: Allocat
     { // Calyx prop
         var scene_group = protocol.SceneGroupInfo.init(allocator);
         scene_group.state = 1;
-        scene_group.group_id = 129;
+        scene_group.group_id = 6;
 
         var prop = protocol.ScenePropInfo.init(allocator);
-        prop.prop_id = 808;
+        prop.prop_id = 901;
         prop.prop_state = 1;
 
         try scene_group.entity_list.append(.{
-            .GroupId = 129,
+            .GroupId = 231,
             .InstId = 300001,
             .EntityId = 1337,
             .Prop = prop,
-            .Motion = .{ .pos = .{ .x = 11839, .y = 4789, .z = -131781 },
-                .rot = .{} },
-        });
-
-        try scene_info.entity_group_list.append(scene_group);
-    }
-
-    { // NPC
-        var scene_group = protocol.SceneGroupInfo.init(allocator);
-        scene_group.state = 1;
-
-        var npc = protocol.SceneNpcInfo.init(allocator);
-        npc.npc_id = 0;
-
-        try scene_group.entity_list.append(.{
-            .Npc = npc,
+            .Motion = .{
+                .pos = .{ .x = 26790, .y = -467500, .z = -281 },
+                .rot = .{}
+            },
         });
 
         try scene_info.entity_group_list.append(scene_group);
@@ -80,7 +70,8 @@ pub fn onSceneEntityMove(session: *Session, packet: *const Packet, allocator: Al
 
     for (req.entity_motion_list.items) |entity_motion| {
         if (entity_motion.motion) |motion| {
-            log.debug("[POSITION] entity_id: {}, motion: {}", .{ entity_motion.entity_id, motion });
+            const colored_log = "\x1b[33;1m[POSITION] entity_id: {}, motion: {}\x1b[0m";
+            log.debug(colored_log, .{ entity_motion.entity_id, motion });
         }
     }
 
