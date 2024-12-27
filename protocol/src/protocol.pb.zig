@@ -13217,7 +13217,7 @@ pub const Item = struct {
     UniqueId: u32 = 0,
     Level: u32 = 0,
     ItemId: u32 = 0,
-    Num: u32 = 0,
+    num: u32 = 0,
     Rank: u32 = 0,
 
     pub const _desc_table = .{
@@ -13226,7 +13226,7 @@ pub const Item = struct {
         .UniqueId = fd(13, .{ .Varint = .Simple }),
         .Level = fd(8, .{ .Varint = .Simple }),
         .ItemId = fd(9, .{ .Varint = .Simple }),
-        .Num = fd(15, .{ .Varint = .Simple }),
+        .num = fd(15, .{ .Varint = .Simple }),
         .Rank = fd(2, .{ .Varint = .Simple }),
     };
 
@@ -13381,9 +13381,9 @@ pub const Vector = struct {
     z: i32 = 0,
 
     pub const _desc_table = .{
-        .x = fd(7, .{ .Varint = .ZigZagOptimized }),
-        .y = fd(3, .{ .Varint = .ZigZagOptimized }),
-        .z = fd(6, .{ .Varint = .ZigZagOptimized }),
+        .y = fd(7, .{ .Varint = .ZigZagOptimized }),
+        .z = fd(3, .{ .Varint = .ZigZagOptimized }),
+        .x = fd(6, .{ .Varint = .ZigZagOptimized }),
     };
 
     pub usingnamespace protobuf.MessageMixins(@This());
@@ -17042,7 +17042,7 @@ pub const DoGachaScRsp = struct {
     hjjmaaffiko: u32 = 0,
     retcode: u32 = 0,
     gacha_id: u32 = 0,
-    gacha_random: u32 = 0,	//prob gacha_random
+    gacha_random: u32 = 0, //prob gacha_random
     gacha_item_list: ArrayList(GachaItem),
     ceiling_num: u32 = 0,
     einkplbkapk: u32 = 0,
@@ -18128,12 +18128,12 @@ pub const ExchangeHcoinCsReq = struct {
 };
 
 pub const ExchangeHcoinScRsp = struct {
-    Retcode: u32 = 0,
-    Num: u32 = 0,
+    retcode: u32 = 0,
+    num: u32 = 0,
 
     pub const _desc_table = .{
-        .Retcode = fd(2, .{ .Varint = .Simple }),
-        .Num = fd(8, .{ .Varint = .Simple }),
+        .retcode = fd(2, .{ .Varint = .Simple }),
+        .num = fd(8, .{ .Varint = .Simple }),
     };
 
     pub usingnamespace protobuf.MessageMixins(@This());
@@ -24119,16 +24119,16 @@ pub const GetPhoneDataCsReq = struct {
 
 pub const GetPhoneDataScRsp = struct {
     retcode: u32 = 0,
-    owned_phone_themes: ArrayList(u32),
-    cur_phone_theme: u32 = 0,
     owned_chat_bubbles: ArrayList(u32),
+    cur_phone_theme: u32 = 0,
+    owned_phone_themes: ArrayList(u32),
     cur_chat_bubble: u32 = 0,
 
     pub const _desc_table = .{
         .retcode = fd(12, .{ .Varint = .Simple }),
-        .owned_phone_themes = fd(4, .{ .PackedList = .{ .Varint = .Simple } }),
+        .owned_chat_bubbles = fd(4, .{ .PackedList = .{ .Varint = .Simple } }),
         .cur_phone_theme = fd(11, .{ .Varint = .Simple }),
-        .owned_chat_bubbles = fd(5, .{ .PackedList = .{ .Varint = .Simple } }),
+        .owned_phone_themes = fd(5, .{ .PackedList = .{ .Varint = .Simple } }),
         .cur_chat_bubble = fd(14, .{ .Varint = .Simple }),
     };
 
@@ -24681,9 +24681,9 @@ pub const Gateserver = struct {
     ieodbfnbpce: ManagedString = .Empty,
     nnjkidddaca: u32 = 0,
     idlpmplagme: ManagedString = .Empty,
-    ex_resource_url: ManagedString = .Empty,	//mbpniapdbfl
+    ex_resource_url: ManagedString = .Empty, //mbpniapdbfl
     emmbijjilkb: bool = false,
-    port: u32 = 0,	//epjkijllckm
+    port: u32 = 0, //epjkijllckm
     pdpjjpcpgog: ManagedString = .Empty,
     jgonjgpgmai: u32 = 0,
     iafcgifnncg: ManagedString = .Empty,
@@ -24695,8 +24695,8 @@ pub const Gateserver = struct {
     pceiilkjlin: bool = false,
     oadchoebage: ManagedString = .Empty,
     cngbmfihcea: bool = false,
-    ip: ManagedString = .Empty,	//dmodigdlecd
-    asset_bundle_url: ManagedString = .Empty,	//cdchobcimlk
+    ip: ManagedString = .Empty, //dmodigdlecd
+    asset_bundle_url: ManagedString = .Empty, //cdchobcimlk
     gdfkcejfimo: ManagedString = .Empty,
     kcbjfbmocml: bool = false,
     hpjlchiglng: bool = false,
@@ -24713,7 +24713,7 @@ pub const Gateserver = struct {
     nedoaabgifp: ManagedString = .Empty,
     djbceejcpad: ManagedString = .Empty,
     bbkknoodlcm: ManagedString = .Empty,
-    lua_version: ManagedString = .Empty,	//acdgioghjed
+    lua_version: ManagedString = .Empty, //acdgioghjed
     mhnmehekcdg: ManagedString = .Empty,
     edegoipbplm: ManagedString = .Empty,
     lenedjnhjmj: u32 = 0,
@@ -24746,9 +24746,9 @@ pub const Gateserver = struct {
         .ieodbfnbpce = fd(5, .String),
         .nnjkidddaca = fd(900, .{ .Varint = .Simple }),
         .idlpmplagme = fd(539, .String),
-        .ex_resource_url = fd(4, .String),	//mbpniapdbfl
+        .ex_resource_url = fd(4, .String), //mbpniapdbfl
         .emmbijjilkb = fd(13, .{ .Varint = .Simple }),
-        .port = fd(15, .{ .Varint = .Simple }),	//epjkijllckm
+        .port = fd(15, .{ .Varint = .Simple }), //epjkijllckm
         .pdpjjpcpgog = fd(1443, .String),
         .jgonjgpgmai = fd(1377, .{ .Varint = .Simple }),
         .iafcgifnncg = fd(745, .String),
@@ -24760,8 +24760,8 @@ pub const Gateserver = struct {
         .pceiilkjlin = fd(8, .{ .Varint = .Simple }),
         .oadchoebage = fd(1859, .String),
         .cngbmfihcea = fd(263, .{ .Varint = .Simple }),
-        .ip = fd(2, .String),	//dmodigdlecd
-        .asset_bundle_url = fd(14, .String),	//cdchobcimlk
+        .ip = fd(2, .String), //dmodigdlecd
+        .asset_bundle_url = fd(14, .String), //cdchobcimlk
         .gdfkcejfimo = fd(197, .String),
         .kcbjfbmocml = fd(1033, .{ .Varint = .Simple }),
         .hpjlchiglng = fd(116, .{ .Varint = .Simple }),
@@ -24778,7 +24778,7 @@ pub const Gateserver = struct {
         .nedoaabgifp = fd(1103, .String),
         .djbceejcpad = fd(97, .String),
         .bbkknoodlcm = fd(181, .String),
-        .lua_version = fd(505, .String),	//acdgioghjed
+        .lua_version = fd(505, .String), //acdgioghjed
         .mhnmehekcdg = fd(1841, .String),
         .edegoipbplm = fd(1118, .String),
         .lenedjnhjmj = fd(12, .{ .Varint = .Simple }),
@@ -35186,26 +35186,40 @@ pub const SceneSummonUnitInfo = struct {
 };
 
 pub const SceneEntityInfo = struct {
-    Actor: ?SceneActorInfo = null,
-    NpcMonster: ?SceneNpcMonsterInfo = null,
-    Npc: ?SceneNpcInfo = null,
-    Prop: ?ScenePropInfo = null,
-    SummonUnit: ?SceneSummonUnitInfo = null,
-    GroupId: u32 = 0,
+    entity_id: u32 = 0,
+    group_id: u32 = 0,
+    inst_id: u32 = 0,
     Motion: ?MotionInfo = null,
-    EntityId: u32 = 0,
-    InstId: u32 = 0,
+    entityCase_: ?entityCase__union,
+
+    pub const _entityCase__case = enum {
+        Actor,
+        NpcMonster,
+        Npc,
+        Prop,
+        SummonUnit,
+    };
+    pub const entityCase__union = union(_entityCase__case) {
+        Actor: SceneActorInfo,
+        NpcMonster: SceneNpcMonsterInfo,
+        Npc: SceneNpcInfo,
+        Prop: ScenePropInfo,
+        SummonUnit: SceneSummonUnitInfo,
+        pub const _union_desc = .{
+            .Actor = fd(11, .{ .SubMessage = {} }),
+            .NpcMonster = fd(9, .{ .SubMessage = {} }),
+            .Npc = fd(13, .{ .SubMessage = {} }),
+            .Prop = fd(7, .{ .SubMessage = {} }),
+            .SummonUnit = fd(4, .{ .SubMessage = {} }),
+        };
+    };
 
     pub const _desc_table = .{
-        .Actor = fd(11, .{ .SubMessage = {} }),
-        .NpcMonster = fd(9, .{ .SubMessage = {} }),
-        .Npc = fd(13, .{ .SubMessage = {} }),
-        .Prop = fd(7, .{ .SubMessage = {} }),
-        .SummonUnit = fd(4, .{ .SubMessage = {} }),
-        .GroupId = fd(14, .{ .Varint = .Simple }),
+        .entity_id = fd(2, .{ .Varint = .Simple }),
+        .group_id = fd(14, .{ .Varint = .Simple }),
+        .inst_id = fd(6, .{ .Varint = .Simple }),
         .Motion = fd(10, .{ .SubMessage = {} }),
-        .EntityId = fd(2, .{ .Varint = .Simple }),
-        .InstId = fd(6, .{ .Varint = .Simple }),
+        .entityCase_ = fd(null, .{ .OneOf = entityCase__union }),
     };
 
     pub usingnamespace protobuf.MessageMixins(@This());
@@ -35356,7 +35370,7 @@ pub const MissionStatusBySceneInfo = struct {
 };
 
 pub const SceneInfo = struct {
-    epjfpdphmij: u32 = 0,
+    leader_entity_id: u32 = 0,
     entity_group_list: ArrayList(SceneGroupInfo),
     game_story_line_id: u32 = 0,
     entry_id: u32 = 0,
@@ -35379,7 +35393,7 @@ pub const SceneInfo = struct {
     mglhebhjabe: ArrayList(u32),
 
     pub const _desc_table = .{
-        .epjfpdphmij = fd(5, .{ .Varint = .Simple }),
+        .leader_entity_id = fd(5, .{ .Varint = .Simple }),
         .entity_group_list = fd(1301, .{ .List = .{ .SubMessage = {} } }),
         .game_story_line_id = fd(27, .{ .Varint = .Simple }),
         .entry_id = fd(14, .{ .Varint = .Simple }),

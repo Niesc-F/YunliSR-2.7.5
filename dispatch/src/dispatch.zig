@@ -30,7 +30,7 @@ pub fn onQueryGateway(_: *httpz.Request, res: *httpz.Response) !void {
     std.log.debug("onQueryGateway", .{});
 
     var proto = protocol.Gateserver.init(res.arena);
-    const hotfix =  try HotfixConfig.hotfixParser(res.arena, "hotfix.json");
+    const hotfix = try HotfixConfig.hotfixParser(res.arena, "hotfix.json");
 
     std.log.info("Get assetBundleUrl >> {s}", .{hotfix.assetBundleUrl});
     std.log.info("Get exResourceUrl >> {s}", .{hotfix.exResourceUrl});
@@ -43,7 +43,7 @@ pub fn onQueryGateway(_: *httpz.Request, res: *httpz.Response) !void {
     proto.lua_url = .{ .Const = hotfix.luaUrl };
     proto.asset_bundle_url = .{ .Const = hotfix.assetBundleUrl };
     proto.ex_resource_url = .{ .Const = hotfix.exResourceUrl };
-    
+
     proto.bonnpkimhlc = true;
     proto.emmbijjilkb = true;
     proto.lpmkfiiibcj = true;
@@ -59,7 +59,6 @@ pub fn onQueryGateway(_: *httpz.Request, res: *httpz.Response) !void {
     proto.clbpflldkfn = true;
     proto.mhpnibpfnhf = true;
     proto.pdjlpphmden = true;
-
 
     const data = try proto.encode(res.arena);
     const size = Base64Encoder.calcSize(data.len);

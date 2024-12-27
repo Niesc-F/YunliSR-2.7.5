@@ -15,7 +15,7 @@ const log = std.log.scoped(.scene_service);
 
 pub fn onGetCurSceneInfo(session: *Session, _: *const Packet, allocator: Allocator) !void {
     var scene_info = protocol.SceneInfo.init(allocator);
-    scene_info.leader_entity_id = 0;
+    scene_info.leader_entity_id = 1;
     scene_info.game_mode_type = 1;
     scene_info.plane_id = 10401;
     scene_info.floor_id = 10401001;
