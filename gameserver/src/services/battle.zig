@@ -467,7 +467,7 @@ pub fn onSceneCastSkill(session: *Session, packet: *const Packet, allocator: All
             try battle.battle_target_info.append(.{ .key = 5, .value = pfTargetTail });
         },
         // AS
-        420100...420200 => {
+        420100...420300 => {
             try battle.battle_target_info.append(.{ .key = 1, .value = asTargetHead });
         },
         else => {},
